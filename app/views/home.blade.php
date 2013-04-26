@@ -51,9 +51,9 @@
       				</div><!--/.nav-collapse -->
 
               <div class="btn-group" id="view-style">
-                <button class="btn active" id="view-th-large"><i class="icon-th-large"></i></button>
+                <button class="btn" id="view-th-large"><i class="icon-th-large"></i></button>
                 <button class="btn" id="view-th"><i class="icon-th"></i></button>
-                <button class="btn" id="view-list"><i class="icon-list"></i></button>
+                <button class="btn active" id="view-list"><i class="icon-list"></i></button>
               </div>
       			</div>
       		</div>
@@ -62,7 +62,10 @@
       	<div class="container">
 
       		<h1>Contacts</h1>
-          <table id="allContacts" class="table">
+          <div id="allContacts">
+
+          </div>
+          <!-- <table id="allContacts" class="table">
             <thead>
               <tr>
                 <th>First Name:</th>
@@ -72,30 +75,9 @@
                 <th>Options</th>
               </tr>
             </thead>
-          </table>
+          </table> -->
 
       	</div> <!-- /container -->
-
-
-
-        <div id="editContact">
-
-        </div>
-
-      	<script id="allContactsTemplate" type="text/template">
-      	  <td><%= first_name %></td>
-      	  <td><%= last_name %></td>
-      	  <td><%= email %></td>
-      	  <td><%= description %></td>
-          <td>
-            <button class="editContactFormButton btn"><i class="icon-edit"></i> Edit</button>
-            <!--<a href="#contacts/<%= id %>/edit" class="editContactFormButton">Edit</a>-->
-          </td>
-          <td>
-            <button class="delete btn"><i class="icon-trash"></i> Delete</button>
-            <!--<a href="#contacts/<%= id %>" class="delete">Delete</a>-->
-          </td>
-      	</script>
 
 
 
@@ -135,11 +117,57 @@
         </form>
         </script>
 
+        <script id="thLargeContactsTemplate" type="text/template">
+          <div class="thumbnail">
+            <i class="icon-user" style="font-size:280px"></i>
+            <div class="caption">
+              <h3><%= first_name %> <%= last_name %></h3>
+              <div class=""><i class="icon-envelope"></i> <a href="mailto:<%= email %>"><%= email %></a></div>
+              <p><i class="icon-align-left"></i> <%= description %></p>
+              <p>
+                <button class="editContactFormButton btn btn-success"><i class="icon-edit"></i> Edit</button>
+                <button class="delete btn btn-danger"><i class="icon-trash"></i> Delete</button>
+              </p>
+            </div>
+          </div>
+        </script>
+
+        <!-- Template from: http://www.w3resource.com/twitter-bootstrap/thumbnails-tutorial.php -->
+        <script id="thContactsTemplate" type="text/template">
+          <div class="thumbnail">
+            <i class="icon-user" style="font-size:150px"></i>
+            <div class="caption">
+              <h5><%= first_name %> <%= last_name %></h5>
+              <div class=""><i class="icon-envelope"></i> <a href="mailto:<%= email %>"><%= email %></a></div>
+              <p><i class="icon-align-left"></i> <%= description %></p>
+              <p>
+                <button class="editContactFormButton btn btn-success"><i class="icon-edit"></i> Edit</button>
+                <button class="delete btn btn-danger"><i class="icon-trash"></i> Delete</button>
+              </p>
+            </div>
+          </div>
+        </script>
+
+        <script id="listContactsTemplate" type="text/template">
+          <td><%= first_name %></td>
+          <td><%= last_name %></td>
+          <td><%= email %></td>
+          <td><%= description %></td>
+          <td>
+            <button class="editContactFormButton btn"><i class="icon-edit"></i> Edit</button>
+          </td>
+          <td>
+            <button class="delete btn"><i class="icon-trash"></i> Delete</button>
+          </td>
+        </script>
+
       	<script src="js/jquery-2.0.0.js"></script>
       	<script src="js/underscore.js"></script>
       	<script src="js/backbone.js"></script>
         <script src="js/backbone.bootstrap-modal.js"></script>
       	<script src="js/bootstrap.js"></script>
+        <!-- From Juan Pablo Bottaro: https://github.com/linkedin/Backbone.TableView -->
+        <script src="js/Backbone.TableView/backbone.tableview.js"></script>
 
       	<script src="js/main.js"></script>
       	<script src="js/models.js"></script>

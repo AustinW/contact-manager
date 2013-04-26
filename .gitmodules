@@ -1,0 +1,3 @@
+[submodule "public/js/Backbone.TableView"]
+	path = public/js/Backbone.TableView
+	url = git://github.com/linkedin/Backbone.TableView.git
