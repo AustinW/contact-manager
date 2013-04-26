@@ -53,14 +53,15 @@ return array(
 		),
 
 		'mysql' => array(
-			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'database',
-			'username'  => 'root',
-			'password'  => '',
-			'charset'   => 'utf8',
+			'driver'   => 'mysql',
+			'host'     => 'localhost',
+			'database' => '',
+			'username' => 'root',
+			'password' => '',
+			'port'     => '3360',
+			'charset'  => 'utf8',
+			'prefix'   => '',
 			'collation' => 'utf8_unicode_ci',
-			'prefix'    => '',
 		),
 
 		'pgsql' => array(
