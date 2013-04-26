@@ -166,8 +166,6 @@
       	<script src="js/backbone.js"></script>
         <script src="js/backbone.bootstrap-modal.js"></script>
       	<script src="js/bootstrap.js"></script>
-        <!-- From Juan Pablo Bottaro: https://github.com/linkedin/Backbone.TableView -->
-        <script src="js/Backbone.TableView/backbone.tableview.js"></script>
 
       	<script src="js/main.js"></script>
       	<script src="js/models.js"></script>
