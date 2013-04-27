@@ -1,6 +1,16 @@
 <?php
 
-class ContactsController extends BaseController {
+use App\Repositories\ContactRepositoryInterface as Contact;
+
+class ContactsController extends BaseController
+{
+
+	protected $contact;
+
+	public function __construct(Contact $contact)
+	{
+		$this->contact = $contact;
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -9,7 +19,7 @@ class ContactsController extends BaseController {
 	 */
 	public function index()
 	{
-		return Contact::all();
+		return $this->contact->all();
 	}
 
 	/**
@@ -29,14 +39,7 @@ class ContactsController extends BaseController {
 	 */
 	public function store()
 	{
-		$input = Input::json();
-
-		return Contact::create([
-			'first_name'  => $input->get('first_name'),
-			'last_name'   => $input->get('last_name'),
-			'email'       => $input->get('email'),
-			'description' => $input->get('description')
-		]);
+		return $this->contact->create(Input::json()->all());
 	}
 
 	/**
@@ -47,7 +50,7 @@ class ContactsController extends BaseController {
 	 */
 	public function show($id)
 	{
-		return Contact::find($id);
+		return $this->contact->find($id);
 	}
 
 	/**
@@ -69,16 +72,7 @@ class ContactsController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$contact = Contact::find($id);
-
-		$input = Input::json();
-
-		$contact->first_name  = $input->get('first_name');
-		$contact->last_name   = $input->get('last_name');
-		$contact->email       = $input->get('email');
-		$contact->description = $input->get('description');
-
-		$contact->save();
+		return $this->contact->update($id, Input::json()->all());
 	}
 
 	/**
@@ -89,7 +83,7 @@ class ContactsController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		return Contact::find($id)->delete();
+		return $this->contact->delete($id);
 	}
 
 }

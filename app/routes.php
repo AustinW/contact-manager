@@ -1,5 +1,10 @@
 <?php
 
+App::bind(
+	'App\Repositories\ContactRepositoryInterface',
+	'App\Repositories\EloquentContactRepository'
+);
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
