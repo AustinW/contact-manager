@@ -19,7 +19,7 @@ class ContactsController extends BaseController
 	 */
 	public function index()
 	{
-		return $this->contact->all();
+		return Response::json($this->contact->all());
 	}
 
 	/**
@@ -39,7 +39,7 @@ class ContactsController extends BaseController
 	 */
 	public function store()
 	{
-		return $this->contact->create(Input::json()->all());
+		return Response::json($this->contact->create(Input::json()->all()));
 	}
 
 	/**
@@ -50,7 +50,7 @@ class ContactsController extends BaseController
 	 */
 	public function show($id)
 	{
-		return $this->contact->find($id);
+		return Response::json($this->contact->find($id));
 	}
 
 	/**
@@ -72,7 +72,7 @@ class ContactsController extends BaseController
 	 */
 	public function update($id)
 	{
-		return $this->contact->update($id, Input::json()->all());
+		return Response::json($this->contact->update($id, Input::json()->all()));
 	}
 
 	/**
@@ -83,7 +83,7 @@ class ContactsController extends BaseController
 	 */
 	public function destroy($id)
 	{
-		return $this->contact->delete($id);
+		return Response::json($this->contact->delete($id));
 	}
 
 }

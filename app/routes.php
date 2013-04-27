@@ -2,7 +2,7 @@
 
 App::bind(
 	'App\Repositories\ContactRepositoryInterface',
-	'App\Repositories\EloquentContactRepository'
+	'App\Repositories\MongoContactRepository'
 );
 
 /*
@@ -19,6 +19,32 @@ App::bind(
 Route::get('/', function()
 {
 	return View::make('home');
+});
+
+Route::get('/test', function() {
+	$contacts = new App\Repositories\MongoContactRepository();
+
+	// $newContact = $contacts->create(array(
+	// 	'first_name'  => 'Neil',
+	// 	'last_name'   => 'Gulati',
+	// 	'email'       => 'twistmaster9000@gmail.com',
+	// 	'description' => 'Trampolinist'
+	// ));
+
+	// var_dump($newContact);
+
+	// $allContacts = $contacts->all();
+
+	// foreach ($allContacts as $contact) {
+	// 	var_dump($contact);
+	// }
+
+	// $contact = $contacts->update('517b60804c84a3fe3b000000', array('email' => 'a.white@homefree.com'));
+	// var_dump($contact);
+
+
+	var_dump($contacts->delete('517b877b4c84a3fe3b000004'));
+
 });
 
 Route::resource('contacts', 'ContactsController');
