@@ -18,7 +18,8 @@ App::bind(
 
 Route::get('/', function()
 {
-	return View::make('home');
+	// Returning as raw html so it can be used in Bottle server
+	return File::get(__DIR__ . '/views/index.html');
 });
 
 Route::resource('contacts', 'ContactsController');

@@ -50,7 +50,7 @@ class MongoContactRepository implements ContactRepositoryInterface {
 
 	protected static function rewriteIdForRetrieve($data)
 	{
-		if (isset($data['_id'])) {
+		if (isset($data['_id']) && $data['_id'] instanceof MongoId) {
 			$data['id'] = $data['_id']->{'$id'};
 			unset($data['_id']);
 		}

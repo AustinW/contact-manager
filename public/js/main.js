@@ -4,7 +4,8 @@
 		Models: {},
 		Collections: {},
 		Views: {},
-		Router: {}
+		Router: {},
+		storageEngine: 'mongo'
 	};
 
 	window.vent = _.extend({}, Backbone.Events);
