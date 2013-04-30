@@ -101,4 +101,4 @@ def index():
     return template('./app/views/index.html')
 
 # start application
-bottle.run(host='0.0.0.0', port=argv[1], reloader=True)
+bottle.run(host='contacts.dev', port=argv[1], reloader=True)

@@ -32,7 +32,7 @@
       </head>
       <body>
 
-      	<div class="navbar navbar-fixed-top">
+      	<div id="navigation-bar" class="navbar navbar-fixed-top">
       		<div class="navbar-inner">
       			<div class="container">
       				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -46,10 +46,22 @@
       						<li class="active"><a href="#">Home</a></li>
       						<li><a href="#about">About</a></li>
       						<li><a href="#contact">Contact</a></li>
-                  <li><a id="addContactFormButton"><i class="icon-plus-sign"></i> Add Contact</a></li>
+                  <li class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon-cog"></i> Options <strong class="caret"></strong></a>
+                    <ul class="dropdown-menu">
+                      <li><a id="add-contact-form-button"><i class="icon-plus-sign"></i> Add Contact</a></li>
+                      <li class="divider"></li>
+                      <li id="login-with-facebook-container">
+                        <a id="login-with-facebook"><i class="icon-facebook"></i> Login with Facebook</a>
+                      </li>
+                      <li id="sync-with-facebook-container">
+                        <a id="sync-with-facebook"><img class="fb-self-pic" style="width:24px;height:24px" /> Sync with Facebook</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li id="main-loading-indicator"><i class="icon-spinner icon-spin icon-3x" style="color:white"></i></li>
       					</ul>
       				</div><!--/.nav-collapse -->
-
               <div class="btn-group" id="view-style">
                 <button class="btn" id="view-th-large"><i class="icon-th-large"></i></button>
                 <button class="btn" id="view-th"><i class="icon-th"></i></button>
@@ -65,17 +77,6 @@
           <div id="allContacts">
 
           </div>
-          <!-- <table id="allContacts" class="table">
-            <thead>
-              <tr>
-                <th>First Name:</th>
-                <th>Last Name:</th>
-                <th>Email:</th>
-                <th>Description:</th>
-                <th>Options</th>
-              </tr>
-            </thead>
-          </table> -->
 
       	</div> <!-- /container -->
 
@@ -119,7 +120,9 @@
 
         <script id="thLargeContactsTemplate" type="text/template">
           <div class="thumbnail">
-            <i class="icon-user" style="font-size:280px"></i>
+            <div class="fb-pic fb-pic-large">
+              <i class="icon-user" style="font-size:280px"></i>
+            </div>
             <div class="caption">
               <h3><%= first_name %> <%= last_name %></h3>
               <div class=""><i class="icon-envelope"></i> <a href="mailto:<%= email %>"><%= email %></a></div>
@@ -135,7 +138,9 @@
         <!-- Template from: http://www.w3resource.com/twitter-bootstrap/thumbnails-tutorial.php -->
         <script id="thContactsTemplate" type="text/template">
           <div class="thumbnail">
-            <i class="icon-user" style="font-size:150px"></i>
+            <div class="fb-pic fb-pic-medium">
+              <i class="icon-user" style="font-size:150px"></i>
+            </div>
             <div class="caption">
               <h5><%= first_name %> <%= last_name %></h5>
               <div class=""><i class="icon-envelope"></i> <a href="mailto:<%= email %>"><%= email %></a></div>
@@ -149,6 +154,7 @@
         </script>
 
         <script id="listContactsTemplate" type="text/template">
+          <td><div class="fb-pic fb-pic-small"><i class="icon-user" style="font-size:24px"></i></div></td>
           <td><%= first_name %></td>
           <td><%= last_name %></td>
           <td><%= email %></td>
@@ -161,11 +167,13 @@
           </td>
         </script>
 
+        <script src="//connect.facebook.net/en_US/all.js" id="facebook-jssdk"></script>
       	<script src="js/jquery-2.0.0.js"></script>
       	<script src="js/underscore.js"></script>
       	<script src="js/backbone.js"></script>
         <script src="js/backbone.bootstrap-modal.js"></script>
       	<script src="js/bootstrap.js"></script>
+        <script src="js/facebook-user/src/FacebookUser.js"></script>
 
       	<script src="js/main.js"></script>
       	<script src="js/models.js"></script>

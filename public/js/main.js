@@ -5,7 +5,8 @@
 		Collections: {},
 		Views: {},
 		Router: {},
-		storageEngine: 'mongo'
+		storageEngine: 'mongo',
+		facebookUser: new FacebookUser(null, {scope: ['email']})
 	};
 
 	window.vent = _.extend({}, Backbone.Events);
@@ -16,5 +17,9 @@
 		} else {
 			return _.template( $('#' + id).html(), data );
 		}
-	}
+	};
+
+	FB.init({
+		appId: '386499554797554'
+	});
 })();

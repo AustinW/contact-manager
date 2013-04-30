@@ -1,3 +1,41 @@
-#addContactFormButton {
+#add-contact-form-button, #login-with-facebook, #sync-with-facebook {
 	cursor: pointer;
+}
+
+#sync-with-facebook-container {
+	display:none;
+}
+
+#main-loading-indicator {
+	display:none;
+}
+
+.fb-pic-large {
+	width: 280px;
+	height: 280px;
+}
+
+.fb-pic-medium {
+	width:150px;
+	height:150px;
+}
+
+.fb-pic-small {
+	width:24px;
+	height:24px;
+}
+
+.fb-pic-large img {
+	max-width:280px;
+	max-height:280px;
+}
+
+.fb-pic-medium img {
+	max-width:150px;
+	max-height:150px;
+}
+
+.fb-pic-small img {
+	max-width:24px;
+	max-height:24px;
 }
