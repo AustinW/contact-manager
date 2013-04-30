@@ -8,18 +8,20 @@ App.Views.App = Backbone.View.extend({
 	el: 'body',
 
 	initialize: function() {
-
 		this.mainLoadingIndicator = new App.Views.MainLoadingIndicator();
 		this.contactViewStyle = new App.Views.ContactViewStyle();
 		this.navBar = new App.Views.NavBar();
-		this.setViewStyle();
-	},
-
-	setViewStyle: function() {
-
 	},
 });
 
+/*
+|--------------------------------------------------------------------------
+| Main Loading Indicator
+|--------------------------------------------------------------------------
+|
+| Shows the user that something is loading in the background
+|
+*/
 App.Views.MainLoadingIndicator = Backbone.View.extend({
 	el: '#main-loading-indicator',
 
@@ -37,12 +39,20 @@ App.Views.MainLoadingIndicator = Backbone.View.extend({
 	}
 });
 
+/*
+|--------------------------------------------------------------------------
+| Navigation Bar View
+|--------------------------------------------------------------------------
+*/
 App.Views.NavBar = Backbone.View.extend({
 	el: '#navigation-bar',
 
 	initialize: function() {
 		vent.on('contact:edit', this.editContact, this);
 		vent.on('contact:syncFB', this.addFBInfo, this);
+
+		vent.on('close:addModal', function() {this.addModal.close();}, this);
+		vent.on('close:editModal', function() {this.editModal.close();}, this);
 
 		this.addContactView = new App.Views.AddContact({ collection: App.contacts });
 
@@ -65,16 +75,17 @@ App.Views.NavBar = Backbone.View.extend({
 		},
 		'click #sync-with-facebook': function(event) {
 			vent.trigger('show-main-loading-indicator');
+
+			var syncedContacts = 0;
 			FB.api('/me/friends', {fields: 'name,id,birthday,email'}, function(response) {
-				console.log(response);
+
 
 				_.each(response.data, function(fbUser) {
 					_.each(App.contacts.models, function(contact) {
 
 						if (fbUser.name == contact.get('first_name') + ' ' + contact.get('last_name')) {
-							console.log(fbUser);
+							++syncedContacts;
 							contact.trigger('addFBInfo', fbUser);
-							// this.addFBInfo(contact.get('id'), fbUser);
 						}
 					})
 				});
@@ -84,13 +95,9 @@ App.Views.NavBar = Backbone.View.extend({
 		}
 	},
 
-	addFBInfo: function(contactId, fbUser) {
-		console.log(contactId, fbUser);
-	},
-
 	openContactForm: function() {
 
-		var modal = new Backbone
+		this.addModal = new Backbone
 			.BootstrapModal({
 				content: this.addContactView,
 				animate: true,
@@ -103,7 +110,7 @@ App.Views.NavBar = Backbone.View.extend({
 
 		var editContactView = new App.Views.EditContact({model: contact});
 
-		var modal = new Backbone
+		this.editModal = new Backbone
 			.BootstrapModal({
 				content: editContactView,
 				animate: true,
@@ -125,6 +132,7 @@ App.Views.ContactViewStyle = Backbone.View.extend({
 
 	initialize: function() {
 		console.log('Setting initial view');
+
 		this.changeStyle();
 	},
 
@@ -132,9 +140,24 @@ App.Views.ContactViewStyle = Backbone.View.extend({
 		'click .btn': 'changeStyle'
 	},
 
+	readPersistedStyle: function() {
+		return _.cookie('view-style') || 'view-list';
+	},
+
+	persistStyle: function(style) {
+		_.cookie('view-style', style);
+	},
+
 	changeStyle: function(e) {
-		console.log('setting style');
-		this.viewStyle = typeof e !== 'undefined' ? this.$(e.currentTarget).attr('id') : 'view-list';
+
+		if (typeof e !== 'undefined' && e != null) {
+			this.viewStyle = this.$(e.currentTarget).attr('id');
+		} else {
+			this.viewStyle = this.readPersistedStyle();
+		}
+
+		this.persistStyle(this.viewStyle);
+
 		this.setActiveButton(this.viewStyle);
 
 		if (this.viewStyle == 'view-th-large') {
@@ -166,6 +189,15 @@ App.Views.AddContact = Backbone.View.extend({
 		this.bind('ok', this.addContact, this);
 
 		this.render();
+	},
+
+	events: {
+		'keyup form input': function(e) {
+			if (e.keyCode == 13) {
+				this.trigger('ok');
+				vent.trigger('close:addModal');
+			}
+		}
 	},
 
 	render: function() {
@@ -209,6 +241,12 @@ App.Views.EditContact = Backbone.View.extend({
 
 	events: {
 		'keyup form .personName': 'updateTitle',
+		'keyup form input': function(e) {
+			if (e.keyCode == 13) {
+				this.trigger('ok');
+				vent.trigger('close:editModal');
+			}
+		}
 	},
 
 	updateTitle: function() {
@@ -384,10 +422,10 @@ App.Views.Contact = Backbone.View.extend({
 		if (this.tagClass != '')
 			$(this.el).addClass(this.tagClass);
 
-		var fbId = this.model.get('fbId');
+		var fb_id = this.model.get('fb_id');
 
-		if (typeof fbId !== 'undefined') {
-			this.$('.fb-pic').html('<img src="https://graph.facebook.com/' + fbId + '/picture?type=large" />');
+		if (typeof fb_id !== 'undefined') {
+			this.$('.fb-pic').html('<img src="https://graph.facebook.com/' + fb_id + '/picture?type=large" class="img-polaroid" />');
 		}
 
 		return this;
@@ -402,7 +440,8 @@ App.Views.Contact = Backbone.View.extend({
 	},
 
 	addFBInfo: function(fbUser) {
-		this.model.set({fbId: fbUser.id});
+		this.model.set({fb_id: fbUser.id});
+		this.model.save();
 	},
 
 	unrender: function() {

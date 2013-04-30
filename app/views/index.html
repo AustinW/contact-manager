@@ -31,7 +31,7 @@
 
       </head>
       <body>
-
+        <div id="fb-root"></div>
       	<div id="navigation-bar" class="navbar navbar-fixed-top">
       		<div class="navbar-inner">
       			<div class="container">
@@ -121,7 +121,7 @@
         <script id="thLargeContactsTemplate" type="text/template">
           <div class="thumbnail">
             <div class="fb-pic fb-pic-large">
-              <i class="icon-user" style="font-size:280px"></i>
+              <i class="icon-user img-polaroid" style="font-size:280px"></i>
             </div>
             <div class="caption">
               <h3><%= first_name %> <%= last_name %></h3>
@@ -139,7 +139,7 @@
         <script id="thContactsTemplate" type="text/template">
           <div class="thumbnail">
             <div class="fb-pic fb-pic-medium">
-              <i class="icon-user" style="font-size:150px"></i>
+              <i class="icon-user img-polaroid" style="font-size:150px"></i>
             </div>
             <div class="caption">
               <h5><%= first_name %> <%= last_name %></h5>
@@ -154,7 +154,11 @@
         </script>
 
         <script id="listContactsTemplate" type="text/template">
-          <td><div class="fb-pic fb-pic-small"><i class="icon-user" style="font-size:24px"></i></div></td>
+          <td>
+            <div class="fb-pic fb-pic-small">
+              <i class="icon-user img-polaroid" style="font-size:24px"></i>
+            </div>
+          </td>
           <td><%= first_name %></td>
           <td><%= last_name %></td>
           <td><%= email %></td>
