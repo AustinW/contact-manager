@@ -77,20 +77,26 @@ App.Views.NavBar = Backbone.View.extend({
 			vent.trigger('show-main-loading-indicator');
 
 			var syncedContacts = 0;
-			FB.api('/me/friends', {fields: 'name,id,birthday,email'}, function(response) {
+			FB.api('/me', function(self_response) {
+				self_name = self_response.name;
 
+				FB.api('/me/friends', {fields: 'name,id,birthday,email'}, function(friends_response) {
 
-				_.each(response.data, function(fbUser) {
-					_.each(App.contacts.models, function(contact) {
+					_.each(friends_response.data, function(fbUser) {
+						_.each(App.contacts.models, function(contact) {
 
-						if (fbUser.name == contact.get('first_name') + ' ' + contact.get('last_name')) {
-							++syncedContacts;
-							contact.trigger('addFBInfo', fbUser);
-						}
-					})
+							if (fbUser.name == contact.get('first_name') + ' ' + contact.get('last_name')) {
+								++syncedContacts;
+								contact.trigger('addFBInfo', fbUser);
+							} else if (self_name == contact.get('first_name') + ' ' + contact.get('last_name')) {
+								++syncedContacts;
+								contact.trigger('addFBInfo', self_response);
+							}
+						})
+					});
+
+					vent.trigger('hide-main-loading-indicator');
 				});
-
-				vent.trigger('hide-main-loading-indicator');
 			});
 		}
 	},
@@ -213,7 +219,8 @@ App.Views.AddContact = Backbone.View.extend({
 			first_name:  this.$('#first_name').val(),
 			last_name:   this.$('#last_name').val(),
 			email:       this.$('#email').val(),
-			description: this.$('#description').val()
+			description: this.$('#description').val(),
+			phone:       this.$('#phone').val()
 		}, {wait: true, validate:true });
 	}
 });
@@ -256,10 +263,11 @@ App.Views.EditContact = Backbone.View.extend({
 	submit: function() {
 		// Update the model
 		this.model.save({
-			first_name: this.$('#first_name').val(),
-			last_name: this.$('#last_name').val(),
-			email: this.$('#email').val(),
-			description: this.$('#description').val()
+			first_name:  this.$('#first_name').val(),
+			last_name:   this.$('#last_name').val(),
+			email:       this.$('#email').val(),
+			description: this.$('#description').val(),
+			phone:       this.$('#phone').val()
 		}, {validate: true});
 	}
 });
@@ -417,7 +425,7 @@ App.Views.Contact = Backbone.View.extend({
 	},
 
 	render: function() {
-		this.$el.html( template( this.templateName, this.model.toJSON() ) );
+		this.$el.html( template( this.templateName, {data: this.model.toJSON()} ) );
 
 		if (this.tagClass != '')
 			$(this.el).addClass(this.tagClass);

@@ -11,6 +11,9 @@ from bson.objectid import ObjectId
 
 bottle.debug(True)
 
+
+# Install Mongo Plugin??
+#
 # Initiate MongoDB Connection
 pyMongoConnection = Connection('localhost', 27017)
 # Connect to the contacts database
