@@ -1,6 +1,6 @@
 # Contacts Manager
 
-Built by [Austin White](http://www.github.com/AustinW) for CPSC 473. The project intention of the project is to become familiar with the Backbone.js framework, using BottlePy server side to respond to requests. Code available under [MIT License](https://github.com/AustinW/contact-manager/blob/master/license.md).
+Built by [Austin White](http://www.github.com/AustinW) for CPSC 473. The intention of the project is to become familiar with the Backbone.js framework, using BottlePy server side to respond to requests. Code available under [MIT License](https://github.com/AustinW/contact-manager/blob/master/license.md).
 
 ## Credits and Frameworks Used
 
