@@ -78,7 +78,14 @@ App.Views.NavBar = Backbone.View.extend({
 
 			var syncedContacts = 0;
 			FB.api('/me', function(self_response) {
-				self_name = self_response.name;
+
+				_.each(App.contacts.models, function(contact) {
+					if (self_response.name == contact.get('first_name') + ' ' + contact.get('last_name')) {
+						++syncedContacts;
+						contact.trigger('addFBInfo', self_response);
+						console.log(syncedContacts, self_response.name);
+					}
+				});
 
 				FB.api('/me/friends', {fields: 'name,id,birthday,email'}, function(friends_response) {
 
@@ -88,11 +95,9 @@ App.Views.NavBar = Backbone.View.extend({
 							if (fbUser.name == contact.get('first_name') + ' ' + contact.get('last_name')) {
 								++syncedContacts;
 								contact.trigger('addFBInfo', fbUser);
-							} else if (self_name == contact.get('first_name') + ' ' + contact.get('last_name')) {
-								++syncedContacts;
-								contact.trigger('addFBInfo', self_response);
+								console.log(syncedContacts, fbUser.name);
 							}
-						})
+						});
 					});
 
 					vent.trigger('hide-main-loading-indicator');
