@@ -1,3 +1,0 @@
-[submodule "public/js/facebook-user"]
-	path = public/js/facebook-user
-	url = git://github.com/fabrik42/facebook-user.js.git
