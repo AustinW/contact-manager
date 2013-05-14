@@ -11,13 +11,6 @@ from bson.objectid import ObjectId
 bottle.debug(True)
 
 
-# Install Mongo Plugin??
-#
-# Initiate MongoDB Connection
-pyMongoConnection = Connection('localhost', 27017)
-# Connect to the contacts database
-pyMongoDB = pyMongoConnection.contacts
-
 '''
 MongoDB Connection
 '''
@@ -31,19 +24,19 @@ def favicon():
 
 @route('/css/:path#.+#')
 def server_static(path):
-    return static_file(path, root='./public/css/')
+    return static_file(path, root='./css/')
 
 @route('/img/:path#.+#')
 def server_static(path):
-    return static_file(path, root='./public/img/')
+    return static_file(path, root='./img/')
 
 @route('/js/:path#.+#')
 def server_static(path):
-    return static_file(path, root='./public/js/')
+    return static_file(path, root='./js/')
 
 @route('/font/:path#.+#')
 def server_static(path):
-    return static_file(path, root='./public/font/')
+    return static_file(path, root='./font/')
 
 
 #
@@ -89,7 +82,7 @@ def put_contact(id, mongodb):
                 'email':       request.json.get('email', '').strip(),
                 'phone':       request.json.get('phone', '').strip(),
                 'description': request.json.get('description', '').strip(),
-                'fbId':        request.json.get('fbId', '').strip(),
+                'fb_id':       request.json.get('fb_id', '').strip(),
             }
         }
     )
@@ -105,7 +98,7 @@ def delete_contact(id, mongodb):
 @route('/')
 @route('/index.html')
 def index():
-    return template('./app/views/index.html')
+    return template('./index.html')
 
 # start application
 bottle.run(host='contacts.dev', port=argv[1], reloader=True)
