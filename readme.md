@@ -7,7 +7,15 @@ Built by [Austin White](http://www.github.com/AustinW) for CPSC 473. The project
 * [facebook-user.js](https://github.com/fabrik42/facebook-user.js) "A small wrapper that wraps facebook connect in a backbone.js model"
 > [Facebook-user.js](https://github.com/fabrik42/facebook-user.js#license) is released under the MIT license.
 
-* [Facebook Javascript SDK](https://github.com/facebook/connect-js) "Except as otherwise noted, the Facebook Connect JavaScript SDK is licensed under the [Apache Licence, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)"
+* [Facebook Javascript SDK](https://developers.facebook.com/docs/reference/javascript/):
+The Facebook SDK for JavaScript provides a rich set of client-side functionality that:
+    * Enables you to use the Like Button and other Social Plugins on your site.
+    * Enables you to use Facebook Login to lower the barrier for people to sign up on your site.
+    * Makes it easy to call into Facebook's primary API, called the Graph API.
+    * Launch Dialogs that let people perform various actions like sharing stories.
+    * Facilitates communication when you're building a game or an app tab on Facebook.
+
+    > Except as otherwise noted, the Facebook Connect JavaScript SDK is licensed under the [Apache Licence, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 * [Twitter Bootstrap](http://twitter.github.io/bootstrap/) "Sleek, intuitive, and powerful front-end framework for faster and easier web development."
 > Code licensed under Apache License v2.0, documentation under CC BY 3.0.
