@@ -12,10 +12,10 @@ App.Models.Contact = Backbone.Model.extend({
 	},
 
 	// MongoDB uses "_id" instead of id for primary key
-	parse: function(response) {
-		if (App.storageEngine == 'mongo') {
-			response.id = response._id.$oid;
-			return response;
-		}
-	},
+	// parse: function(response) {
+	// 	if (App.storageEngine == 'mongo') {
+	// 		response.id = response._id.$oid;
+	// 		return response;
+	// 	}
+	// },
 });

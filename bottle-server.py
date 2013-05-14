@@ -1,9 +1,8 @@
 import os
-from os import environ as env
 from sys import argv
 import bottle
-import pywapi
-from bottle import route, run, static_file, redirect, request, error, template, get, post, put, delete
+from bottle import route, run, static_file, redirect, request, error, template, get, post, put, delete, install
+from bottle_mongo import MongoPlugin
 import json
 from pymongo import Connection
 from bson import json_util
@@ -18,6 +17,11 @@ bottle.debug(True)
 pyMongoConnection = Connection('localhost', 27017)
 # Connect to the contacts database
 pyMongoDB = pyMongoConnection.contacts
+
+'''
+MongoDB Connection
+'''
+install(MongoPlugin(uri='localhost', db='contacts', json_mongo=True))
 
 # static files (js,css,partials) set up
 
@@ -47,56 +51,56 @@ def server_static(path):
 # Rest API
 #--------------------------------------------------------------------------
 #
-# Straight 1:1 conversion from laravel implementation
-#
 @get('/contacts')
-def get_contacts():
+def get_contacts(mongodb):
     # Get all contacts
 
-    contacts = pyMongoDB.contacts
-    all_contacts = contacts.find()
-    return json_util.dumps(all_contacts)
+    return mongodb.contacts.find()
 
 @get('/contacts/<id:re:[a-zA-Z0-9]+>')
-def get_contact(id):
-    # Get one contact
-    contacts = pyMongoDB.contacts
+def get_contact(id, mongodb):
 
-    contact = contacts.find_one({'_id': ObjectId(id)})
-    return json.dumps(contact, default=json_util.default)
+    return mongodb.contacts.find_one({'_id': ObjectId(id)})
 
 @post('/contacts')
-def post_contacts():
-    # Select the contacts collection
-    contacts = pyMongoDB.contacts
+def post_contacts(mongodb):
 
-    contact_id = contacts.insert(request.json)
-    newContact = contacts.find_one({'_id': contact_id})
+    # No validation on any data!
+    contact_id = mongodb.contacts.insert({
+        'first_name':  request.json.get('first_name', '').strip(),
+        'last_name':   request.json.get('last_name', '').strip(),
+        'email':       request.json.get('email', '').strip(),
+        'phone':       request.json.get('phone', '').strip(),
+        'description': request.json.get('description', '').strip(),
+    })
 
-    return json.dumps(newContact, default=json_util.default)
+    return { 'id': contact_id }
 
 @put('/contacts/<id:re:[a-zA-Z0-9]+>')
-def put_contact(id):
-    contacts = pyMongoDB.contacts
+def put_contact(id, mongodb):
 
-    contact = contacts.find_one({'_id': ObjectId(id)})
+    # No validation on any data!
+    mongodb.contacts.update(
+        { '_id': ObjectId(id) },
+        {
+            '$set': {
+                'first_name':  request.json.get('first_name', '').strip(),
+                'last_name':   request.json.get('last_name', '').strip(),
+                'email':       request.json.get('email', '').strip(),
+                'phone':       request.json.get('phone', '').strip(),
+                'description': request.json.get('description', '').strip(),
+                'fbId':        request.json.get('fbId', '').strip(),
+            }
+        }
+    )
 
-    for key, value in request.json.iteritems():
-        if (key != '_id'):
-            contact[key] = value
-
-    contacts.save(contact)
-
-    return json.dumps(contact, default=json_util.default)
+    return { 'message': 'Updated successfully' }
 
 @delete('/contacts/<id:re:[a-zA-Z0-9]+>')
-def delete_contact(id):
-    contacts = pyMongoDB.contacts
+def delete_contact(id, mongodb):
 
-    contacts.remove({'_id': ObjectId(id)})
-
-    return {'message': 'success'}
-
+    mongodb.contacts.remove({ '_id': ObjectId(id) })
+    return { 'message': 'Deleted successfully' }
 
 @route('/')
 @route('/index.html')
