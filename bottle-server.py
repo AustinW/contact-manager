@@ -14,7 +14,10 @@ bottle.debug(True)
 '''
 MongoDB Connection
 '''
-install(MongoPlugin(uri='localhost', db='contacts', json_mongo=True))
+if os.environ.get('MONGOHQ_URL') is None:
+    install(MongoPlugin(uri=os.environ.get('MONGOHQ_URL'), db='contacts', json_mongo=True))
+else:
+    install(MongoPlugin(uri='localhost', db='contacts', json_mongo=True))
 
 # static files (js,css,partials) set up
 
@@ -101,4 +104,7 @@ def index():
     return template('./index.html')
 
 # start application
-bottle.run(host='contacts.dev', port=argv[1], reloader=True)
+if os.environ.get('PORT') is None:
+    run(host='contacts.dev', port=argv[1], reloader=True)
+else:
+    run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
