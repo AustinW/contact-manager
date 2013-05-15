@@ -1,1 +1,1 @@
-web: bin/python ./app.py $PORT
+web: python ./bottle-server.py $PORT
