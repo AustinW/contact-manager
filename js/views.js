@@ -449,7 +449,8 @@ App.Views.Contact = Backbone.View.extend({
 	},
 
 	deleteContact: function() {
-		this.model.destroy();
+		if (confirm('Are you sure you wish to delete this contact?'))
+			this.model.destroy();
 	},
 
 	addFBInfo: function(fbUser) {
