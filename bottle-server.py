@@ -15,9 +15,9 @@ bottle.debug(True)
 MongoDB Connection
 '''
 if os.environ.get('MONGOHQ_URL') is None:
-    install(MongoPlugin(uri=os.environ.get('MONGOHQ_URL'), db='contacts', json_mongo=True))
-else:
     install(MongoPlugin(uri='localhost', db='contacts', json_mongo=True))
+else:
+    install(MongoPlugin(uri=os.environ.get('MONGOHQ_URL'), db='contacts', json_mongo=True))
 
 # static files (js,css,partials) set up
 
