@@ -5,7 +5,6 @@
 		Collections: {},
 		Views: {},
 		Router: {},
-		storageEngine: 'mongo',
 		facebookUser: new FacebookUser(null, {scope: ['email']})
 	};
 
@@ -20,11 +19,23 @@
 	};
 
 	FB.init({
+
+    // Facebook App built in Facebook Developer section <https://developers.facebook.com/apps>
 		appId: '386499554797554'
 	});
 })();
 
-// Underscore cookie mixin from @wookiehangover https://github.com/wookiehangover/underscore.cookie
+/*
+|--------------------------------------------------------------------------
+| Underscore cookie mixin from @wookiehangover https://github.com/wookiehangover/underscore.cookie
+|--------------------------------------------------------------------------
+|
+| A port of the ever popular $.cookie as an underscore mixin.
+| All credit goes to @carhartl, the maintainer of jQuery.cookie, of which this is a derivative work.
+|
+| https://github.com/wookiehangover/underscore.cookie
+|
+*/
 
 /*jshint onevar: false */
 (function( root ){
