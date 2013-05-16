@@ -81,12 +81,16 @@ App.Views.NavBar = Backbone.View.extend({
 		// a user would like to add a contact
 		this.addContactView = new App.Views.AddContact({ collection: App.contacts });
 
+		// Cache the jQuery DOM elements before using in the Facebook callback
+		loginWithFacebookContainer = this.$('#login-with-facebook-container');
+		syncWithFacebookContainer = this.$('#sync-with-facebook-container');
+
 		// Respond to an event fired from the facebook-user package, letting us know
 		// that the user has logged in with Facebook. Here we'll change the
 		// "Login with Facebook" button to "Sync with Facebook"
 		App.facebookUser.on('facebook:connected', function(response) {
-			this.$('#login-with-facebook-container').remove();
-			this.$('#sync-with-facebook-container').show();
+			loginWithFacebookContainer.remove();
+			syncWithFacebookContainer.show();
 		});
 	},
 
