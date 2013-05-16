@@ -1,6 +1,5 @@
 App.Models.Contact = Backbone.Model.extend({
-	// validate
-
+	// Basic validation for the model (incomplete)
 	validate: function(attrs) {
 		if ( ! attrs.first_name || ! attrs.last_name ) {
 			return "First and last name are required.";

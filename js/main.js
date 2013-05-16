@@ -1,5 +1,7 @@
 // function:
 (function(){
+
+  // Initializing a global App container object
 	window.App = {
 		Models: {},
 		Collections: {},
@@ -8,6 +10,7 @@
 		facebookUser: new FacebookUser(null, {scope: ['email']})
 	};
 
+  // Extending the Backbone.Events class into a global vent variable (easier syntax)
 	window.vent = _.extend({}, Backbone.Events);
 
 	window.template = function(id, data) {
@@ -18,6 +21,7 @@
 		}
 	};
 
+  // Initialize the Facebook SDK
 	FB.init({
 
     // Facebook App built in Facebook Developer section <https://developers.facebook.com/apps>

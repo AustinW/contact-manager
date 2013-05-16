@@ -436,21 +436,30 @@ App.Views.EditContact = Backbone.View.extend({
 */
 
 App.Views.ThLargeContacts = Backbone.View.extend({
+
+	// Large contact cards will use a ul element
 	tagName: 'ul',
 
 	initialize: function() {
+
+		// Fire the addOne() method when a new item is added to the collection
 		this.collection.on('add', this.addOne, this);
 	},
 
 	render: function() {
+
+		// When rendering the view, loop through each item in the collection
 		this.collection.each( this.addOne, this );
+
+		// Probably a better way of doing this, but here we're adding a .thumbnails
+		// class to the ul element (<ul class="thumbnails"></ul>).
 		$(this.el).addClass('thumbnails');
 
 		return this;
 	},
 
 	addOne: function(contact) {
-		// We have to manually adjust the tagName for the each individual row
+		// We have to manually adjust the tagName for each individual row
 		// before rendering
 		App.Views.Contact.prototype.tagName = 'li';
 
@@ -472,14 +481,23 @@ App.Views.ThLargeContacts = Backbone.View.extend({
 */
 
 App.Views.ThContacts = Backbone.View.extend({
+
+	// Small contact cards will use a ul element
 	tagName: 'ul',
 
 	initialize: function() {
+
+		// Fire the addOne() method when a new item is added to the collection
 		this.collection.on('add', this.addOne, this);
 	},
 
 	render: function() {
+
+		// When rendering the view, loop through each item in the collection
 		this.collection.each( this.addOne, this );
+
+		// Probably a better way of doing this, but here we're adding a .thumbnails
+		// class to the ul element (<ul class="thumbnails"></ul>).
 		$(this.el).addClass('thumbnails');
 
 		return this;
@@ -508,14 +526,22 @@ App.Views.ThContacts = Backbone.View.extend({
 */
 
 App.Views.ListContacts = Backbone.View.extend({
+
+	// For the list view, we'll use a table
 	tagName: 'table',
 
 	initialize: function() {
+
+		// Fire the addOne() method when a new item is added to the collection
 		this.collection.on('add', this.addOne, this);
 	},
 
 	render: function() {
+
+		// When rendering the view, loop through each item in the collection
 		this.collection.each( this.addOne, this );
+
+		// Adding the .table class to the table (<table class="table"></table>)
 		$(this.el).addClass('table');
 
 		return this;
@@ -545,48 +571,85 @@ App.Views.ListContacts = Backbone.View.extend({
 
 App.Views.Contact = Backbone.View.extend({
 
+	// Default tag is a tr for each entry, but this value
+	// will later be dynamically changed if the view-style changes
 	tagName: 'tr',
 
+	// Initialize an empty templateName which is from whichever view-style
+	// method is used
 	templateName: '',
+
+	// Initialize an empty tagClass that accompanies the list item
+	// (<li class="span6"></li>)
 	tagClass: '',
 
 	initialize: function() {
+
+		// When the model is destroyed, we also want to remove the element
+		// from the DOM
 		this.model.on('destroy', this.unrender, this);
+
+		// When the model is changed, we need to re-render the individual model
+		// with the updated information
 		this.model.on('change', this.render, this);
+
+		// When facebook info is added, we need to update the model with the
+		// contact's facebook user id
 		this.model.on('addFBInfo', this.addFBInfo, this);
 	},
 
 	events: {
+
+		// Specify a callback for when the delete button is clicked on an
+		// individual contact
 		'click button.delete': 'deleteContact',
+
+		// Specify a callback for when the edit button is clicked on an
+		// individual contact
 		'click button.editContactFormButton': 'editContactTrigger'
 	},
 
 	setThLargeView: function() {
+
+		// Set the template name before rendering
 		this.templateName = 'thLargeContactsTemplate';
+
+		// Set the tag for the individual item before rendering
 		this.tagClass = 'span6';
 
 		return this;
 	},
 
 	setThView: function() {
+
+		// Set the template name before rendering
 		this.templateName = 'thContactsTemplate';
+
+		// Set the tag for the individual item before rendering
 		this.tagClass = 'span4';
 
 		return this;
 	},
 
 	setTableView: function() {
+
+		// Set the template name before rendering
 		this.templateName = 'listContactsTemplate';
 
 		return this;
 	},
 
 	render: function() {
+
+		// Dump the template into the model element with its data
 		this.$el.html( template( this.templateName, {data: this.model.toJSON()} ) );
 
+		// Add the tagClass to the element
 		if (this.tagClass != '')
 			$(this.el).addClass(this.tagClass);
 
+		// If the model has a facebook id associated with the contact,
+		// let's populate the user's profile picture
 		var fb_id = this.model.get('fb_id');
 
 		if (typeof fb_id !== 'undefined') {
@@ -597,20 +660,30 @@ App.Views.Contact = Backbone.View.extend({
 	},
 
 	editContactTrigger: function() {
+
+		// All we need to do here is fire an event, letting the application
+		// know that the user is wishing to edit a contact and pass the model
 		vent.trigger('contact:edit', this.model);
 	},
 
 	deleteContact: function() {
+
+		// Let's double check that the user wants to delete the contact
 		if (confirm('Are you sure you wish to delete this contact?'))
 			this.model.destroy();
 	},
 
 	addFBInfo: function(fbUser) {
+
+		// Attach the facebook id to the model and save it
 		this.model.set({fb_id: fbUser.id});
+
 		this.model.save();
 	},
 
 	unrender: function() {
+
+		// Physically remove the view from the DOM
 		this.remove();
 	}
 });

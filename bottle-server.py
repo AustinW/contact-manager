@@ -103,7 +103,7 @@ def delete_contact(id, mongodb):
 def index():
     return template('./index.html')
 
-# start application
+# start application for either localhost or Heroku
 if os.environ.get('PORT') is None:
     run(host='contacts.dev', port=argv[1], reloader=True)
 else:
