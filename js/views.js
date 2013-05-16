@@ -508,7 +508,7 @@ App.Views.ThContacts = Backbone.View.extend({
 	},
 
 	addOne: function(contact) {
-		// We have to manually adjust the tagName for the each individual row
+		// We have to manually adjust the tagName for each individual row
 		// before rendering
 		App.Views.Contact.prototype.tagName = 'li';
 
@@ -552,7 +552,7 @@ App.Views.ListContacts = Backbone.View.extend({
 	},
 
 	addOne: function(contact) {
-		// We have to manually adjust the tagName for the each individual row
+		// We have to manually adjust the tagName for each individual row
 		// before rendering
 		App.Views.Contact.prototype.tagName = 'tr';
 
